@@ -143,84 +143,97 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col w-screen min-h-screen p-6">
-      <header className="flex items-center justify-between w-full h-12 px-4 border-4">
-        <div>Peace ENcrypt</div>
-        <div className="flex items-center space-x-5">
-          <button onClick={() => setActiveMenu("encode")} className={activeMenu === "encode" ? "text-green-500 " : ""}>
-            Encode
-          </button>
-          <button onClick={() => setActiveMenu("decode")} className={activeMenu === "decode" ? "text-green-500 " : ""}>
-            Decode
-          </button>
+    <div className="flex flex-col items-center justify-center w-screen min-h-screen  md:p-20 p-6 ">
+      <div className="md:w-2/3 w-full flex flex-col justify-center  items-center shadow-lg p-4 md:p-6">
+        <header className="flex items-center justify-between w-full h-auto p-6">
+          <h1 className="font-bold md:text-4xl text-gray-900">Computerized Data Cryptographic System</h1>
+          
+        </header>
+        <div className="flex-1 w-full p-4 ">
+          {activeMenu === "encode" && (
+            <form className="flex flex-col w-full space-y-3" onSubmit={handleSubmit}>
+              <div className="flex items-center space-x-5">
+                <button onClick={() => setActiveMenu("encode")} className={activeMenu === "encode" ? "text-green-500 p-2 shadow-md" : "p-2"}>
+                  Encode
+                </button>
+                <button onClick={() => setActiveMenu("decode")} className={activeMenu === "decode" ? "text-green-500 p-2 shadow-md  " : "p-2"}>
+                  Decode
+                </button>
+              </div>
+              {privateKey && <p>copy your encrypted message and key</p>}
+              {privateKey && (
+                <div className="flex items-center justify-between p-4 border">
+                  <p className="flex-1 w-full break-words truncate">{privateKey}</p>
+                  <button onClick={handleCopyKey} className="p-4 bg-blue-400 hover:bg-blue-200 rounded-lg  text-white font-bold" type="button">
+                    click to copy key
+                  </button>
+                </div>
+              )}
+              <textarea
+                className="w-full p-4 border outline-none"
+                rows={15}
+                value={encrytMessage}
+                onChange={({ target }) => setEncryptMessage(target.value)}
+                placeholder="Enter a message to encrypt"
+              />
+              {!!!privateKey ? (
+                <button disabled={isProcessing} className="p-2 md:p-4 bg-blue-400 hover:bg-blue-200 rounded-lg text-white font-bold " type="submit">
+                  {isProcessing ? "encrypting..." : "Encrypt"}
+                </button>
+              ) : (
+                <div onClick={handleCopyMessage} className="flex space-x-6">
+                  <button className="p-2 md:p-4 bg-blue-400 hover:bg-blue-200 rounded-lg text-white font-bold  " type="button">
+                    copy encrypted message
+                  </button>
+                  <button onClick={handleReset} className="p-2 md:p-4 bg-blue-400 hover:bg-blue-200 rounded-lg text-white font-bold  " type="button">
+                    reset
+                  </button>
+                </div>
+              )}
+            </form>
+          )}
+          {activeMenu === "decode" && (
+            <form className="flex flex-col w-full space-y-3" onSubmit={handleDecryption}>
+              <div className="flex items-center space-x-5">
+                <button onClick={() => setActiveMenu("encode")} className={activeMenu === "encode" ? "text-green-500 p-2 shadow-md  " : "p-2"}>
+                  Encode
+                </button>
+                <button onClick={() => setActiveMenu("decode")} className={activeMenu === "decode" ? "text-green-500 p-2 shadow-md   " : "p-2"}>
+                  Decode
+                </button>
+              </div>
+              {privateKey && <p>paste your encrypted message and key</p>}
+
+              <input
+                onChange={({ target }) => setDecryptKey(target.value)}
+                value={decryptKey}
+                type={"text"}
+                placeholder="paste your encryption key here"
+                className="w-full p-4 border rounded-lg outline-none "
+              />
+              <textarea
+                className="w-full p-4 border outline-none"
+                rows={15}
+                value={decryptMessage}
+                onChange={({ target }) => setDecryptMessage(target.value)}
+                placeholder="Enter a message to decrypt"
+              />
+
+              {!!decryptKey ? (
+                <button disabled={isDecrypting} className="p-2 md:p-4 bg-blue-400 hover:bg-blue-200 rounded-lg text-white font-bold  " type="submit">
+                  {isDecrypting ? "decrypting..." : " Decrypt messsage"}
+                </button>
+              ) : (
+                <button onClick={handleReset} className="p-2 md:p-4 bg-blue-400 hover:bg-blue-200 rounded-lg text-white font-bold  " type="submit">
+                  Reset
+                </button>
+              )}
+            </form>
+          )}
         </div>
-      </header>
-      <div className="flex-1 w-full p-4 border-4">
-        {activeMenu === "encode" && (
-          <form className="flex flex-col w-full space-y-3" onSubmit={handleSubmit}>
-            {privateKey && <p>copy your encrypted message and key</p>}
-            {privateKey && (
-              <div className="flex items-center justify-between p-4 border">
-                <p className="flex-1 w-full break-words truncate">{privateKey}</p>
-                <button onClick={handleCopyKey} className="px-4 border rounded h-11" type="button">
-                  click to copy key
-                </button>
-              </div>
-            )}
-            <textarea
-              className="w-full p-4 border outline-none"
-              rows={15}
-              value={encrytMessage}
-              onChange={({ target }) => setEncryptMessage(target.value)}
-              placeholder="Enter a message to encrypt"
-            />
-            {!!!privateKey ? (
-              <button disabled={isProcessing} className="px-4 border rounded h-11" type="submit">
-                {isProcessing ? "encrypting..." : "Encrypt"}
-              </button>
-            ) : (
-              <div onClick={handleCopyMessage} className="flex space-x-6">
-                <button className="px-4 border rounded h-11" type="button">
-                  copy encrypted message
-                </button>
-                <button onClick={handleReset} className="px-4 border rounded h-11">
-                  reset
-                </button>
-              </div>
-            )}
-          </form>
-        )}
-        {activeMenu === "decode" && (
-          <form className="flex flex-col w-full space-y-3" onSubmit={handleDecryption}>
-            {privateKey && <p>paste your encrypted message and key</p>}
 
-            <input
-              onChange={({ target }) => setDecryptKey(target.value)}
-              value={decryptKey}
-              type={"text"}
-              placeholder="paste your encryption key here"
-              className="w-full px-4 border rounded outline-none h-11"
-            />
-            <textarea
-              className="w-full p-4 border outline-none"
-              rows={15}
-              value={decryptMessage}
-              onChange={({ target }) => setDecryptMessage(target.value)}
-              placeholder="Enter a message to decrypt"
-            />
-
-            {!!decryptKey ? (
-              <button disabled={isDecrypting} className="px-4 border rounded h-11" type="submit">
-                {isDecrypting ? "decrypting..." : " Decrypt messsage"}
-              </button>
-            ) : (
-              <button onClick={handleReset} className="px-4 border rounded h-11" type="button">
-                reset
-              </button>
-            )}
-          </form>
-        )}
       </div>
+      
     </div>
   )
 }
