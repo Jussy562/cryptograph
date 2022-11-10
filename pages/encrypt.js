@@ -209,7 +209,7 @@ export default function Home() {
                 value={decryptKey}
                 type={"text"}
                 placeholder="paste your encryption key here"
-                className="w-full p-4 border rounded-lg outline-none "
+                className="w-full p-4 border rounded-lg focus:border-blue-300 outline-none "
               />
               <textarea
                 className="rounded-lg focus:border-blue-300 w-full p-4 border outline-none"
