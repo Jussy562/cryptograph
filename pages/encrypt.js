@@ -169,8 +169,8 @@ export default function Home() {
                   </button>
                 </div>
               )}
-              <textarea
-                className="w-full p-4 border outline-none"
+              <textarea 
+                className="rounded-lg focus:border-blue-300 w-full p-4 border outline-none"
                 rows={15}
                 value={encrytMessage}
                 onChange={({ target }) => setEncryptMessage(target.value)}
@@ -212,7 +212,7 @@ export default function Home() {
                 className="w-full p-4 border rounded-lg outline-none "
               />
               <textarea
-                className="w-full p-4 border outline-none"
+                className="rounded-lg focus:border-blue-300 w-full p-4 border outline-none"
                 rows={15}
                 value={decryptMessage}
                 onChange={({ target }) => setDecryptMessage(target.value)}
